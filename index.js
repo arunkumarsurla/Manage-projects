@@ -9,6 +9,27 @@ const apiEndpoint =
   "https://668d0469099db4c579f16037.mockapi.io/api/data/projectData";
 let allProjectsData = [];
 
+
+const ADMIN_EMAIL = "arunkumar@example.com";
+const loggedInUser = localStorage.getItem("userEmail") || "";
+
+function isAdmin() {
+  return loggedInUser === ADMIN_EMAIL;
+}
+
+function login() {
+  const email = document.getElementById("adminEmail").value;
+  localStorage.setItem("userEmail", email);
+  location.reload();
+}
+
+  // Hide all admin-only elements for non-admins
+  if (!isAdmin()) {
+    document.querySelectorAll(".admin-only").forEach(el => {
+      el.style.display = "none";
+    });
+  }
+
 document.addEventListener("DOMContentLoaded", () => {
   fetchProjects();
   document.getElementById("projectsForm").addEventListener("submit", (e) => {
@@ -28,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function searchProjects() {
   const query = document.getElementById("searchInput").value.toUpperCase();
   const filteredProjects = allProjectsData.filter((project) =>
-    project.projectName.toUpperCase().includes(query)
+    project.projectTitle.toUpperCase().includes(query)
   );
   displayProjects(filteredProjects);
   document.getElementById("noProjectsMessage").innerHTML =
@@ -76,20 +97,22 @@ function displayProjects(projects) {
                 <div class="col-12 col-md-6 col-lg-3" id="project-${project.id}">
                     <div class="project-section shadow p-3 mb-3">
                         <img src="${project.projectImg}" alt="${project.id}" class="project-image w-100" />
-                        <h1 class="project-title">${project.projectName}</h1>
-                        <div class="d-flex justify-content-between">
+                        <h1 class="project-title">${project.projectTitle}</h1>
+                        <small class="project-description">${project.projectDescription}</small>
+                      
+                        <div class="d-flex justify-content-between mt-3">
                             <a href="${project.projectUrl}" class="project-link" target="_blank">
                                 View Project
                                 <svg width="16px" height="16px" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="#64ffda" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
                                 </svg>
                             </a>
-                            <div class="edit-button" onclick="editRecord(${project.id})">
+                            <div class="edit-button admin-only" onclick="editRecord(${project.id})">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-edit" style="color:green"></i>
                                 </a>
                             </div>
-                            <div class="delete-button" onclick="deleteRecord(${project.id})">
+                            <div class="delete-button admin-only"  onclick="deleteRecord(${project.id})">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-trash" style="color:red"></i>
                                 </a>
@@ -100,6 +123,11 @@ function displayProjects(projects) {
             `;
     });
     projectsData.innerHTML = htmlData;
+    if (!isAdmin()) {
+      document.querySelectorAll(".admin-only").forEach(el => {
+        el.style.display = "none";
+      });
+    }
   }
 }
 
@@ -156,7 +184,8 @@ function editRecord(id) {
     .then((response) => response.json())
     .then((project) => {
       document.getElementById("projectid").value = project.id;
-      document.getElementById("projectname").value = project.projectName;
+      document.getElementById("projectTitle").value = project.projectTitle;
+      document.getElementById("projectdescription").value = project.projectDescription;
       document.getElementById("projecturl").value = project.projectUrl;
       document.getElementById("logourl").value = project.logoPng;
       document.getElementById("projectimageurl").value = project.projectImg;
@@ -231,7 +260,8 @@ function hideFormLoader() {
 function getFormData() {
   return {
     projectId: document.getElementById("projectid").value,
-    projectName: document.getElementById("projectname").value,
+    projectTitle: document.getElementById("projectTitle").value,
+    projectDescription: document.getElementById("projectdescription").value,
     projectUrl: document.getElementById("projecturl").value,
     logoPng: document.getElementById("logourl").value,
     projectImg: document.getElementById("projectimageurl").value,

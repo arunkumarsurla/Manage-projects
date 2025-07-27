@@ -57,6 +57,10 @@ body {
     margin-top: 24px;
 }
 
+.project-description{
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    font-size:13px;
+}
 
 
 .project-link {

@@ -39,14 +39,14 @@
                 <h2 class="section-heading mt-5 d-flex">
                     <span class="custom-font-color"></span>Manage Projects Data.
                 </h2>
-                <p class="description1">Here, you can handle your project data by editing, deleting, or viewing it.</p>
+                <p class="description1">Here, Admin can handle project data by editing, deleting, or viewing it.</p>
             </div>
            
         
             <div class="d-flex justify-content-between">
                 
                 <input type="text" id="searchInput" class="form-control w-50 searchInputBox" placeholder="Search all projects by name" onkeyup="searchProjects()">
-                <button onclick="addProject()" type="button" class="default-button" >
+                <button onclick="addProject()" type="button" class="default-button admin-only">
                     Add Project <i style="color:#64ffda" class="fa-solid fa-plus"></i>
                 </button>
 
@@ -108,9 +108,14 @@
                                 </div>
 
                                 <div class="form-input-box">
-                                    <label for="projectname">Project Name</label>
-                                    <input class="mt-5" type="text" name="projectname" id="projectname"
+                                    <label for="projectTitle">Project Title</label>
+                                    <input class="mt-5" type="text" name="projectTitle" id="projectTitle"
                                         placeholder="Enter your project name" required />
+                                </div>
+                                <div class="form-input-box">
+                                    <label for="projectdescription">Project Description</label>
+                                    <textarea class="mt-5" type="text" name="projectdescription" id="projectdescription"
+                                        placeholder="Enter your Project Description" required> </textarea>
                                 </div>
 
                                 <div class="form-input-box">
