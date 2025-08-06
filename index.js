@@ -187,7 +187,7 @@ function editRecord(id) {
       document.getElementById("projectTitle").value = project.projectTitle;
       document.getElementById("projectdescription").value = project.projectDescription;
       document.getElementById("projecturl").value = project.projectUrl;
-      document.getElementById("logourl").value = project.logoPng;
+      document.getElementById("techstack").value = project.techStack;
       document.getElementById("projectimageurl").value = project.projectImg;
       document.getElementById("projectsModalLabel").innerText =
         "Edit Project Details";
@@ -263,7 +263,7 @@ function getFormData() {
     projectTitle: document.getElementById("projectTitle").value,
     projectDescription: document.getElementById("projectdescription").value,
     projectUrl: document.getElementById("projecturl").value,
-    logoPng: document.getElementById("logourl").value,
+    techStack: document.getElementById("techstack").value,
     projectImg: document.getElementById("projectimageurl").value,
   };
 }
